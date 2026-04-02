@@ -34,6 +34,7 @@ func main() {
 	{
 		// Endpoints for inventory management
 		v1Routes.POST("/items", inventoryHandler.AddItem)
+		v1Routes.GET("/items", inventoryHandler.ListItems)
 		v1Routes.GET("/items/count", inventoryHandler.GetTotal)
 		v1Routes.GET("/items/:id/analysis", inventoryHandler.GetAnalysis)
 	}

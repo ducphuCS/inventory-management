@@ -106,3 +106,15 @@ func (handler *ItemHandler) GetAnalysis(context *gin.Context) {
 		"python_analysis": analysis,
 	})
 }
+
+// ListItems is the HTTP handler for processing GET /items requests.
+// It retrieves all items from the database storage.
+func (handler *ItemHandler) ListItems(context *gin.Context) {
+	items, err := handler.storage.GetAllItems()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Database error fetching items"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"items": items})
+}

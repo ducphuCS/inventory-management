@@ -86,6 +86,31 @@ func (dbStorage *SQLiteStorage) GetItemByID(id int) (*models.Item, error) {
 	return &item, nil
 }
 
+// GetAllItems retrieves all product records from the inventory.
+func (dbStorage *SQLiteStorage) GetAllItems() ([]models.Item, error) {
+	query := "SELECT id, product_name, stock_count, item_details FROM items"
+	rows, err := dbStorage.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var items []models.Item
+	for rows.Next() {
+		var item models.Item
+		if err := rows.Scan(&item.ID, &item.ProductName, &item.StockCount, &item.ItemDetails); err != nil {
+			return nil, err
+		}
+		items = append(items, item)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return items, nil
+}
+
 // Close closes the connection to the SQLite database.
 func (dbStorage *SQLiteStorage) Close() error {
 	return dbStorage.db.Close()
