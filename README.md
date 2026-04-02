@@ -42,9 +42,15 @@ This method isolates dependencies and ensures the database is persistent.
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `POST` | `/v1/items` | Add a new product to the inventory. |
+| `GET` | `/v1/items` | Retrieve a list of all products in the database. |
 | `GET` | `/v1/items/count` | Retrieve the total number of products in stock. |
 | `GET` | `/v1/items/:id/analysis` | Fetch item info from DB + extended Python analysis. |
 | `GET` | `/health` | Service health check. |
+
+---
+
+## 🌐 Networking & Integration
+This microservice is designed to be part of a larger ecosystem. It exposes a shared Docker network `prototype-webapp-service` for seamless communication with the `PROTOTYPE-WebApp`.
 
 ### Sample JSON Payload (for POST /v1/items)
 ```json

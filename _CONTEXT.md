@@ -3,9 +3,10 @@
 **Status:** 🟢 Active
 **Objective:** A proof of concept (POC) about running a microservice in `Golang`, using `Gin` framework for `Inventory Management`, including integration with `Python` for data analysis.
 
-- Add new items into database.
-- Read the total amount of items in the database.
-- **Python Integration**: Call external Python scripts for product-specific analysis.
+- Add and Retrieve items from a persistent SQLite database.
+- List all items recorded in the inventory.
+- **Python Integration**: Execute on-demand product-specific analysis using a dedicated Python engine.
+- **Microservices Deployment**: Orchestrated to communicate with the `PROTOTYPE-WebApp` over a shared Docker network.
 
 ## Engineer Decisions:
 
@@ -25,10 +26,12 @@
 - [x] **Go/Python Integration**:
   - [x] Python: `scripts/analyze_product.py`
   - [x] Go: `services/python_service.go` using `os/exec`
-- [x] Run and test all endpoints (v1/items, v1/items/count, v1/items/:id/analysis)
-- [x] **Docker-ready Deployment**:
-  - [x] Multi-stage `Dockerfile` (Go + Python/uv)
-  - [x] `docker-compose.yml` with persistent volume support
+- [x] Run and test all endpoints (v1/items, v1/items:id/analysis, v1/items/count)
+- [x] **Add endpoint for listing all items** (v1/items)
+- [x] **Network Integration**:
+  - [x] Standardize Docker network name: `prototype-webapp-service`
+  - [x] Ensure external accessibility for downstream applications
+- [x] **Final Documentation and Verification**
 
 ## 📂 Directory Structure
 
@@ -42,9 +45,9 @@ PROTOTYPE-GinServices/
 ```
 
 ## 🔗 Connectivity
-- **Upstream:** None
-- **Downstream:** Python Interpreter (Analysis Engine)
-- **Links:** None
+- **Upstream:** `PROTOTYPE-WebApp` (FastAPI backend)
+- **Downstream:** Python Interpreter (Internal Analysis Engine)
+- **Shared Network:** `prototype-webapp-service`
 
 ## 🏷️ Semantic Hooks
 #golang #gin #microservices #poc #sqlite #python #os-exec
