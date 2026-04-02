@@ -21,23 +21,19 @@ A high-performance **Golang** microservice for managing inventory items, featuri
 
 ## 🏃 Getting Started
 
-### Prerequisites
-1.  **Go** (1.20+) installed.
-2.  **Python 3** installed.
-3.  **uv** (Python profile manager) installed.
+### Local Development (Direct Run)
+1.  **Go** (1.20+) and **Python 3** must be installed.
+2.  Install [uv](https://github.com/astral-sh/uv).
+3.  Run `go mod tidy` and `go run main.go`.
 
-### Installation
-Clone the repository and install the Go dependencies:
-```bash
-go mod tidy
-```
-
-### Running the Microservice
-Start the server directly using Go:
-```bash
-go run main.go
-```
-The service will start on `http://localhost:8080`.
+### Running with Docker (Recommended)
+This method isolates dependencies and ensures the database is persistent.
+1.  **Build and start** the service:
+    ```bash
+    docker compose up -d --build
+    ```
+2.  The service will be available at `http://localhost:8080`.
+3.  **Persistence**: The SQLite database is stored in a named Docker volume (`inventory_data`) to prevent data loss.
 
 ---
 

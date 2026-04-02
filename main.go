@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/ducphu/inventory-service/handlers"
 	"github.com/ducphu/inventory-service/storage"
@@ -12,7 +13,10 @@ import (
 // It initializes the database storage, setup HTTP routes, and starts the server.
 func main() {
 	// 1. Initialize SQLite Database
-	dbPath := "inventory.db"
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		dbPath = "inventory.db" // Default to current folder for local development
+	}
 	dbStorage, err := storage.NewSQLiteStorage(dbPath)
 	if err != nil {
 		log.Fatalf("Failed to initialize storage: %v", err)

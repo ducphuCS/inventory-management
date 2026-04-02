@@ -26,26 +26,19 @@
   - [x] Python: `scripts/analyze_product.py`
   - [x] Go: `services/python_service.go` using `os/exec`
 - [x] Run and test all endpoints (v1/items, v1/items/count, v1/items/:id/analysis)
+- [x] **Docker-ready Deployment**:
+  - [x] Multi-stage `Dockerfile` (Go + Python/uv)
+  - [x] `docker-compose.yml` with persistent volume support
 
 ## 📂 Directory Structure
 
 ```text
 PROTOTYPE-GinServices/
-├── go.mod
-├── go.sum
-├── main.go
-├── inventory.db
-├── models/
-│   └── item.go
-├── handlers/
-│   └── item.go
-├── storage/
-│   └── sqlite.go
-├── services/
-│   └── python_service.go (Python Orchestrator)
-├── scripts/
-│   └── analyze_product.py (Analytical Engine)
-└── test_endpoints.sh
+├── main.go               # Server initialization
+├── Dockerfile            # Multi-stage container definition
+├── docker-compose.yml    # Service orchestration
+├── inventory.db          (local storage)
+├── ...
 ```
 
 ## 🔗 Connectivity
