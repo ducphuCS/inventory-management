@@ -1,32 +1,36 @@
 #!/bin/bash
 
-# Test script for the renamed parameters in the inventory-service
-BASE_URL="http://localhost:8080/v1"
+# Configuration for local testing
+GIN_BASE_URL="http://localhost:8080/v1"
+WEBAPP_BASE_URL="http://localhost:8000"
 
-echo "--- 1. Checking server health ---"
-curl -s http://localhost:8080/health | grep "ok" && echo "Server is up!" || { echo "Server might not be running. Please start it first with 'go run main.go'."; exit 1; }
+echo "=== GIN INVENTORY SERVICE (PORT 8080) ==="
+echo "--- 1. Checking Gin health ---"
+curl -s http://localhost:8080/health | grep "ok" && echo "Gin is up!" || { echo "Gin might not be running on Port 8080."; exit 1; }
 
-echo -e "\n--- 2. Adding a new item (Laptop) with renamed parameters ---"
-curl -s -X POST $BASE_URL/items \
+echo -e "\n--- 2. Adding a new item (Phone) ---"
+curl -s -X POST $GIN_BASE_URL/items \
   -H "Content-Type: application/json" \
   -d '{
-    "product_name": "Pro Laptop",
-    "stock_count": 15,
-    "item_details": "Next-gen workplace laptop"
+    "product_name": "Smart Phone",
+    "stock_count": 50,
+    "item_details": "Latest gen smartphone"
   }'
 
-echo -e "\n--- 3. Adding another item (Mouse) with renamed parameters ---"
-curl -s -X POST $BASE_URL/items \
-  -H "Content-Type: application/json" \
-  -d '{
-    "product_name": "Master Mouse",
-    "stock_count": 25,
-    "item_details": "Ergonomic bluetooth mouse"
-  }'
+echo -e "\n\n--- 3. Listing all items in Gin ---"
+curl -s $GIN_BASE_URL/items
 
-echo -e "\n--- 4. Getting total count of items (new response key: total_items) ---"
-curl -s $BASE_URL/items/count
+echo -e "\n\n--- 4. Getting Python-based analysis for an item (ID: 1) ---"
+curl -s $GIN_BASE_URL/items/1/analysis
 
-echo -e "\n\n--- 5. Getting Python-based analysis for an item (ID: 1) ---"
-curl -s $BASE_URL/items/1/analysis
+echo -e "\n\n=== WEBAPP FASTAPI BACKEND (PORT 8000) ==="
+echo "--- 1. Checking WebApp health ---"
+curl -s http://localhost:8000/ | grep "bridged" && echo "WebApp is up!" || { echo "WebApp might not be running on Port 8000."; exit 1; }
+
+echo -e "\n--- 2. Fetching items from WebApp (Bridged) ---"
+curl -s $WEBAPP_BASE_URL/items/
+
+echo -e "\n\n--- 3. Requesting analysis from WebApp (Proxy) ---"
+curl -s $WEBAPP_BASE_URL/items/1/analyze
+
 echo -e "\n"
