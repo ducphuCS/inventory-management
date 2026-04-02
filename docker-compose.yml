@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   inventory-service:
     build: .
@@ -17,6 +15,7 @@ services:
 
 networks:
   inventory_network:
+    name: prototype-webapp-service
     driver: bridge
 
 volumes:
